@@ -81,6 +81,7 @@ module Kitchen
       def run_scheduled_task_command
         <<-EOH
         try {
+          Add-Type -AssemblyName System.Core
           $npipeServer = new-object System.IO.Pipes.NamedPipeServerStream(
             'task', [System.IO.Pipes.PipeDirection]::In)
           $pipeReader = new-object System.IO.StreamReader($npipeServer)
@@ -127,6 +128,7 @@ module Kitchen
       def scheduled_task_command_script
         <<-EOH
         start-sleep -seconds 5;
+        Add-Type -AssemblyName System.Core
         $npipeClient = new-object System.IO.Pipes.NamedPipeClientStream(
         $env:ComputerName, 'task', [System.IO.Pipes.PipeDirection]::Out);
         $npipeclient.connect();
